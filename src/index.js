@@ -84,7 +84,7 @@ class Overfall {
     this.internalState = deepCopy(newState);
 
     const deletedProperties = this.indexes.filter(
-      key => newStateKeys.indexOf(key) === -1
+      key => this.indexes.indexOf(key) === -1
     );
 
     if (deletedProperties.length > 0) {
