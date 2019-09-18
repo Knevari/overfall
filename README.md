@@ -22,7 +22,7 @@ The way overfall works is by storing every piece of data you want to interact wi
 ###### Example
 ```
 const manager = new Overfall({
-  movies: []
+	movies: []
 });
 
 manager.changeState({ movies: ["Alien Covenant"] });
@@ -31,7 +31,7 @@ console.log(manager.state); // { movies: ["Alien Covenant"] }
 Besides working with simple state management, you can also attach events to the library to be called when some data from the state changes, if you specify when the event must be called then the "do" method parameter is going to be an object containing all the data from state that you specified. If you don't specify any data from state, then the only way to call the event is by publishing it manually using the "publish" method.
 ```
 manager.on("update_movies").do((params) => {
-  const { movies } = params;
+	const { movies } = params;
   console.log("Calling update_movies Event");
   console.log("New Movies -> ", movies); // [...]
 }).when("movies")
