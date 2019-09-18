@@ -41,8 +41,7 @@ class Overfall {
   }
 
   publish(eventName, ...args) {
-    if (!this.hasEvent(eventName))
-      throw new Error("That event doesn't exist.");
+    if (!this.hasEvent(eventName)) throw new Error("That event doesn't exist.");
 
     const event = this.eventBus.events[eventName];
 
@@ -105,7 +104,8 @@ class Overfall {
         });
 
         Object.getOwnPropertySymbols(evt.subscribers).forEach(subKey =>
-          evt.subscribers[subKey].apply(null, [params]));
+          evt.subscribers[subKey].apply(null, [params])
+        );
       });
     }
   }
@@ -164,7 +164,7 @@ class Overfall {
   subscribeToEvent(eventName, callback) {
     const id = Symbol("id");
     this.eventBus.events[eventName].subscribers[id] = callback;
-    return id
+    return id;
   }
 
   unsubscribeFromEvent(eventName, eventId) {

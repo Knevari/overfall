@@ -1,5 +1,4 @@
 function deepCopy(obj) {
-
   if (Array.isArray(obj)) {
     return obj.slice();
   }
