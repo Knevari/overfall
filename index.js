@@ -156,7 +156,7 @@ class Overfall {
     	do: (event) => {
         this.subscribeToEvent(eventName, event);
         return {
-          when: (dependencies) =>
+          when: (...dependencies) =>
             this.addEventDependencies(eventName, dependencies)
         }
       }
