@@ -2,7 +2,7 @@
   "name": "overfall",
   "version": "0.0.1",
   "description": "A lightweight state management library.",
-  "main": "./src/overfall.js",
+  "main": "./lib/index.js",
   "scripts": {
     "clean": "rimraf lib",
     "build": "cross-env BABEL_ENV=production babel src --out-dir lib",
