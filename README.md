@@ -1,5 +1,7 @@
 # Overfall
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+
 A simple and lightweight state management library for JS
 
 ## Overview
