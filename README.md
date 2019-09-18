@@ -43,8 +43,8 @@ manager.changeState({ movies: ["Lord of The Rings"] });
 // New Movies -> ["Lord of The Rings"]
 
 // You can also pass a function as parameter to changeState.
-manager.changeState(previouState => ({
-    movies: [...previouState.movies, "Alien Covenant"]
+manager.changeState(previousState => ({
+    movies: [...previousState.movies, "Alien Covenant"]
 }));
 
 // Calling update_movies Event
