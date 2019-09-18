@@ -2,7 +2,7 @@
   "name": "overfall",
   "version": "0.0.1",
   "description": "A lightweight state management library.",
-  "main": "index.js",
+  "main": "./lib/overfall.js"
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "docs": "jsdoc index.jsx"
