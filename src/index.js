@@ -21,7 +21,7 @@
  * SOFTWARE.
  */
 
-const deepCopy = require("../helpers/deepCopy");
+const deepCopy = require("./helpers/deepCopy");
 
 class Overfall {
   constructor(initialState = {}) {
