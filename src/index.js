@@ -56,6 +56,7 @@ class Overfall {
   }
 
   restore() {
+    if (!this.refferedState) return;
     this.internalState = deepCopy(this.refferedState);
     this.refferedState = null;
   }
@@ -191,7 +192,6 @@ class Overfall {
       do: event => {
         const id = this.subscribeToEvent(eventName, event);
 
-        // Still working.
         const unsubscribe = () => {
           this.unsubscribeFromEvent(eventName, id);
         };

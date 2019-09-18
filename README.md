@@ -28,7 +28,7 @@ const manager = new Overfall({ movies: [] });
 manager.changeState({ movies: ["Alien Covenant"] });
 console.log(manager.state); // { movies: ["Alien Covenant"] }
 ```
-Besides working with simple state management, you can also attach events to the library to be called when some data from the state changes, the way you do that, is by calling the "on" method passing the event name as argument, you only need the event name to call the events manually if you need to, but, the event is gonna be triggered every time that a data you specified changes, the "do" method must be called after you specify the event name to tell the library what it must do when that certain event is published, and finally the "when" method, that is gonna responsible for saying when that event is gonna be triggered automatically.
+Besides working with simple state management, you can also attach events to the library to be called when some data from the state changes, the way you do that, is by calling the "on" method passing the event name as argument, you only need the event name to call the events manually if you need to, but, the event is gonna be triggered every time that a data you specified changes, the "do" method must be called after you specify the event name to tell the library what it must do when that certain event is published, and finally the "when" method, that is gonna be responsible for saying when that event is gonna be triggered automatically.
 ```
 manager.on("update_movies").do((params) => {
   const { movies } = params;
