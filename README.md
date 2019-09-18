@@ -15,7 +15,7 @@ At first, you must import the library into your code using:
 ```
 const Overfall = require("overfall");
 // or if you're using ES6
-import overfall from "overfall";
+import Overfall from "overfall";
 ```
 The way overfall works is by storing every piece of data you want to interact with inside a state, and attaching events to be called when the data changes.
 
