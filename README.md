@@ -1,6 +1,7 @@
 # Overfall
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![npm Status](https://img.shields.io/badge/node-package-manager)](https://www.npmjs.com/package/overfall)
 
 A simple and lightweight state management library for JS
 
