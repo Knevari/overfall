@@ -3,6 +3,7 @@
 .editorconfig
 examples
 src
+specs
 package-lock.json
 yarn.lock
 node_modules

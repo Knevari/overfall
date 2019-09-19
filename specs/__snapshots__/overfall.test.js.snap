@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should be able to create events 1`] = `
+Object {
+  "event_one": Object {
+    "dependencies": Array [],
+    "subscribers": Object {
+      Symbol(id): [Function],
+    },
+  },
+  "event_three": Object {
+    "dependencies": Array [],
+    "subscribers": Object {
+      Symbol(id): [Function],
+    },
+  },
+  "event_two": Object {
+    "dependencies": Array [],
+    "subscribers": Object {
+      Symbol(id): [Function],
+    },
+  },
+}
+`;
