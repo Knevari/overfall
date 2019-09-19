@@ -149,9 +149,7 @@ class Overfall {
   }
 
   eventHasDependency(eventName, dependency) {
-    return (
-      this.eventBus.events[eventName].dependencies.indexOf(dependency) >= 0
-    );
+    return this.eventBus.events[eventName].dependencies.indexOf(dependency) >= 0
   }
 
   createEvent(eventName) {
