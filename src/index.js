@@ -25,25 +25,35 @@ const deepCopy = require("./helpers/deepCopy");
 
 class Overfall {
   constructor(initialState = {}) {
-    this.internalState = initialState;
-    this.refferedState = null;
-    this.indexes = [];
-    this.eventBus = { events: {} };
+    this._internalState = initialState;
+    this._refferedState = null;
+    this._indexes = [];
+    this._persistData = false;
+    this._eventBus = { events: {} };
     this.configureIndexes();
   }
 
   get state() {
-    return deepCopy(this.internalState);
+    return deepCopy(this._internalState);
   }
 
   set state(newState) {
-    this.internalState = deepCopy(newState);
+    console.warn("You shouldn't be mutating the state!");
+    this._internalState = deepCopy(newState);
+  }
+
+  get events() {
+    return this._eventBus.events;
+  }
+
+  set events(newEvents) {
+    this._eventBus.events = newEvents;
   }
 
   publish(eventName, ...args) {
     if (!this.hasEvent(eventName)) throw new Error("That event doesn't exist.");
 
-    const event = this.eventBus.events[eventName];
+    const event = this._eventBus.events[eventName];
 
     Object.getOwnPropertySymbols(event.subscribers).forEach(key => {
       event.subscribers[key].apply(null, [args]);
@@ -51,18 +61,18 @@ class Overfall {
   }
 
   save() {
-    this.refferedState = deepCopy(this.internalState);
+    this._refferedState = deepCopy(this._internalState);
   }
 
   restore() {
-    if (!this.refferedState) return;
-    this.internalState = deepCopy(this.refferedState);
-    this.refferedState = null;
+    if (!this._refferedState) return;
+    this._internalState = deepCopy(this._refferedState);
+    this._refferedState = null;
   }
 
   configureIndexes() {
-    const keys = Object.keys(this.internalState);
-    this.indexes = [...keys];
+    const keys = Object.keys(this._internalState);
+    this._indexes = [...keys];
   }
 
   changeState(updater) {
@@ -70,8 +80,8 @@ class Overfall {
       throw new Error("You must pass an object or function as param.");
 
     let newState, newStateKeys;
-    const currState = deepCopy(this.internalState);
-    const currStateKeys = Object.keys(this.internalState);
+    const currState = deepCopy(this._internalState);
+    const currStateKeys = Object.keys(this._internalState);
 
     if (typeof updater === "function") {
       newState = updater(currState);
@@ -81,9 +91,9 @@ class Overfall {
       newStateKeys = Object.keys(updater);
     }
 
-    this.internalState = deepCopy(newState);
+    this._internalState = deepCopy(newState);
 
-    const deletedProperties = this.indexes.filter(
+    const deletedProperties = this._indexes.filter(
       key => newStateKeys.indexOf(key) === -1
     );
 
@@ -108,18 +118,25 @@ class Overfall {
         );
       });
     }
+
+    if (this._persistData)
+      this.persistData();
+  }
+
+  persistData() {
+    // persist some data
   }
 
   clearDataEvents(stateKeys) {
-    Object.keys(this.eventBus.events).forEach(evt => {
-      const event = this.eventBus.events[evt];
+    Object.keys(this._eventBus.events).forEach(evt => {
+      const event = this._eventBus.events[evt];
 
       for (const key of stateKeys) {
         const idx = event.dependencies.indexOf(key);
 
         if (idx >= 0) {
           if (event.dependencies.length === 1) {
-            delete this.eventBus.events[evt];
+            delete this._eventBus.events[evt];
           } else {
             event.dependencies.splice(idx, 1);
           }
@@ -130,8 +147,8 @@ class Overfall {
 
   getDataEvents(stateKeys) {
     const evts = [];
-    Object.keys(this.eventBus.events).forEach(evt => {
-      const event = this.eventBus.events[evt];
+    Object.keys(this._eventBus.events).forEach(evt => {
+      const event = this._eventBus.events[evt];
 
       for (const key of stateKeys) {
         if (event.dependencies.indexOf(key) >= 0) {
@@ -145,38 +162,41 @@ class Overfall {
   }
 
   hasEvent(eventName) {
-    return this.eventBus.events.hasOwnProperty(eventName);
+    return this._eventBus.events.hasOwnProperty(eventName);
   }
 
   eventHasDependency(eventName, dependency) {
-    return this.eventBus.events[eventName].dependencies.indexOf(dependency) >= 0
+    return this._eventBus.events[eventName].dependencies.indexOf(dependency) >= 0
   }
 
   createEvent(eventName) {
-    this.eventBus.events[eventName] = {
+    this._eventBus.events[eventName] = {
       subscribers: {},
-      dependencies: []
+      dependencies: [],
+      delete: () => {
+        delete this._eventBus.events[eventName];
+      }
     };
   }
 
   subscribeToEvent(eventName, callback) {
     const id = Symbol("id");
-    this.eventBus.events[eventName].subscribers[id] = callback;
+    this._eventBus.events[eventName].subscribers[id] = callback;
     return id;
   }
 
   unsubscribeFromEvent(eventName, eventId) {
-    delete this.eventBus.events[eventName].subscribers[eventId];
+    delete this._eventBus.events[eventName].subscribers[eventId];
   }
 
   addEventDependencies(eventName, piecesOfState) {
     piecesOfState = piecesOfState.filter(
-      p => Object.keys(this.internalState).indexOf(p) >= 0
+      p => Object.keys(this._internalState).indexOf(p) >= 0
     );
 
     piecesOfState.forEach(p => {
       if (!this.eventHasDependency(eventName, p)) {
-        this.eventBus.events[eventName].dependencies.push(p);
+        this._eventBus.events[eventName].dependencies.push(p);
       }
     });
   }
