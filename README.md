@@ -12,44 +12,53 @@ This is a simple Javascript tool that allows you to listen and emit events when 
 ## Install
 Simply install it by using `npm install overfall`
 
-## API
-
-At first, you must import the library into your code using:
-```
+And then, you must import the library into your code using:
+```javascript
 const Overfall = require("overfall");
 // or if you're using ES6
 import Overfall from "overfall";
 ```
-The way overfall works is by storing every piece of data you want to interact with inside a state, and attaching events to be called when the data changes.
 
-###### Example
-```
-const manager = new Overfall({ movies: [] });
+## API
 
-manager.changeState({ movies: ["Alien Covenant"] });
-console.log(manager.state); // { movies: ["Alien Covenant"] }
+### `changeState`
+The changeState method must be called when you need to update state, its API receives an object describing what should change in your state, or a function that receives the previous state as parameter and should return an object.
+```javascript
+const overfall = new Overfall();
+
+overfall.changeState({  movies: [] });
+
+overfall.changeState(previous => ({
+	movies: [...previous.movies, "Lord of The Rings"]
+}));
+
+overfall.changeState({ books: [] });
+
+console.log(overfall.state);
+// { movies: ["Lord of The Rings"], books: [] }
 ```
-Besides working with simple state management, you can also attach events to the library to be called when some data from the state changes, the way you do that, is by calling the "on" method passing the event name as argument, you only need the event name to call the events manually if you need to, but, the event is gonna be triggered every time that a data you specified changes, the "do" method must be called after you specify the event name to tell the library what it must do when that certain event is published, and finally the "when" method, that is gonna be responsible for saying when that event is gonna be triggered automatically.
-```
-manager.on("update_movies").do((params) => {
+
+### `on`
+The "on" API is pretty straightforward, we need to pass the event name as parameter to it, so we can use it to access the event later on,
+its return value is an object containing the "do" method that receives a function as parameter, this function shall describe what should happen after that event is triggered. We can add more than just one function to the same event. The "do" method returns a new object containing two helper functions called "when" and "unsubscribe", the "unsubscribe" completely removes the event from overfall, and the "when" method should be called when you want to define when the event should execute, in our example, that function is only going to be executed if the "movies" property in our state changes.
+```javascript
+overfall.on("update_movies").do((params) => {
   const { movies } = params;
   console.log("Calling update_movies Event");
   console.log("New Movies -> ", movies);
 }).when("movies")
-
-manager.changeState({ movies: ["Lord of The Rings"] });
-
-// Calling update_movies Event
-// New Movies -> ["Lord of The Rings"]
-
-// You can also pass a function as parameter to changeState.
-manager.changeState(previousState => ({
-    movies: [...previousState.movies, "Alien Covenant"]
-}));
-
-// Calling update_movies Event
-// New Movies -> ["Lord of The Rings", "Alien Covenant"]
 ```
-It is also possible to save a current state to return to it later using the "save" and "restore" functions, pretty straightforward, it can be useful if you want to reset the state, or maybe act as rollback in some cases.
 
-##### Obs: The API is not complete yet, and it's probably going to occur changes, if you want to help, feel free to modify the code and request a pull request, If you could help me find any bugs I would appreciate so much :smiley:.
+### `save`
+```javascript
+overfall.save()
+```
+You can save the current state if you wish to comeback to it later, or save it as a restore point if something goes wrong.
+### `restore`
+```javascript
+overfall.save()
+```
+You must call restore if you want to retrieve the state that you previously saved in your code.
+
+
+##### Obs: The API is not complete yet, and it's probably going to occur changes, if you want to help, feel free to modify the code and make a pull request, I would appreciate so much if you could help me find any bugs :smiley:
