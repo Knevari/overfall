@@ -70,3 +70,18 @@ it('should delete the event', function() {
 
   expect(overfall.events).toMatchSnapshot();
 });
+
+it('should call the event functions when the state changes', function() {
+  const overfall = new Overfall({ movies: [] });
+
+  let executedFunction = false;
+
+  overfall
+  .on("event_one")
+  .do(() => (executedFunction = true))
+  .when("movies");
+
+  overfall.changeState({ movies: ["Lord of The Rings"] });
+
+  expect(executedFunction).toBe(true);
+})
