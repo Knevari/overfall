@@ -7,7 +7,7 @@ it('should be able to update state', function() {
   overfall.changeState({ bar: "zaz" });
 
   expect(overfall.state.foo).toBe('bar');
-})
+});
 
 it('should be able to create events', function() {
   const overfall = new Overfall();
@@ -24,8 +24,8 @@ it('should be able to create events', function() {
     console.log("Third event published");
   })
 
-  expect(overfall.eventBus.events).toMatchSnapshot();
-})
+  expect(overfall.events).toMatchSnapshot();
+});
 
 it('should remove the event dependency if the dependant ' +
    'piece of state is removed', function() {
@@ -34,28 +34,39 @@ it('should remove the event dependency if the dependant ' +
   overfall.on("event").do(() => {}).when("books", "movies");
   overfall.changeState(previous => ({ movies: [] }));
 
-  expect(overfall.eventBus.events.event.dependencies).toContain("movies");
-})
+  expect(overfall.events.event.dependencies).toContain("movies");
+});
 
 it('should execute the event functions correctly if' +
    'some dependency is removed', function() {
-   const overfall = new Overfall({ books: [], movies: [] });
+  const overfall = new Overfall({ books: [], movies: [] });
 
-   let executedFirst = false;
-   let executedSecond = false;
+  let executedFirst = false;
+  let executedSecond = false;
 
-   overfall
+  overfall
     .on("event_one")
     .do(() => (executedFirst = true))
     .when("books", "movies");
-   overfall.changeState(previous => ({ movies: [] }));
+  overfall.changeState(previous => ({ movies: [] }));
 
-   overfall
+  overfall
     .on("event_two")
     .do(() => (executedSecond = true))
     .when("movies");
-   overfall.changeState({ movies: ["Lord of The Rings"] });
+  overfall.changeState({ movies: ["Lord of The Rings"] });
 
-   expect(executedFirst).toBe(true);
-   expect(executedSecond).toBe(true);
-})
+  expect(executedFirst).toBe(true);
+  expect(executedSecond).toBe(true);
+});
+
+it('should delete the event', function() {
+  const overfall = new Overfall();
+
+  overfall.on("event_one").do(() => {});
+  overfall.on("event_two").do(() => {});
+
+  overfall.events.event_one.delete();
+
+  expect(overfall.events).toMatchSnapshot();
+});
