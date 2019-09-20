@@ -77,9 +77,9 @@ it('should call the event functions when the state changes', function() {
   let executedFunction = false;
 
   overfall
-  .on("event_one")
-  .do(() => (executedFunction = true))
-  .when("movies");
+    .on("event_one")
+    .do(() => (executedFunction = true))
+    .when("movies");
 
   overfall.changeState({ movies: ["Lord of The Rings"] });
 
