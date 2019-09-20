@@ -56,7 +56,7 @@ overfall.save()
 You can save the current state if you wish to comeback to it later, or save it as a restore point if something goes wrong.
 ### `restore`
 ```javascript
-overfall.save()
+overfall.restore()
 ```
 You must call restore if you want to retrieve the state that you previously saved in your code.
 
