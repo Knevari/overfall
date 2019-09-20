@@ -119,11 +119,12 @@ class Overfall {
       });
     }
 
-    if (this._persistData)
+    if (this._persistData) {
       this.persistData();
+    }
   }
 
-  persistData() {
+  persistState() {
     // persist some data
   }
 
