@@ -3,18 +3,33 @@
 exports[`should be able to create events 1`] = `
 Object {
   "event_one": Object {
+    "delete": [Function],
     "dependencies": Array [],
     "subscribers": Object {
       Symbol(id): [Function],
     },
   },
   "event_three": Object {
+    "delete": [Function],
     "dependencies": Array [],
     "subscribers": Object {
       Symbol(id): [Function],
     },
   },
   "event_two": Object {
+    "delete": [Function],
+    "dependencies": Array [],
+    "subscribers": Object {
+      Symbol(id): [Function],
+    },
+  },
+}
+`;
+
+exports[`should delete the event 1`] = `
+Object {
+  "event_two": Object {
+    "delete": [Function],
     "dependencies": Array [],
     "subscribers": Object {
       Symbol(id): [Function],
