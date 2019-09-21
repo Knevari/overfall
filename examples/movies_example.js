@@ -28,8 +28,8 @@ overfall.changeState(previous => ({
 overfall.events.update_movies.delete();
 
 // Possible future APIs
-// - overfall.loadFromStorage()
-// - overfall.loadStateFrom(obj)
-// - overfall.state[prop].syncWith()
+// - overfall.loadFromStorage()      M
+// - overfall.loadStateFrom(obj)     X
+// - overfall.state[prop].syncWith() O
 
 // It could return only the data that was added to state.

@@ -34,7 +34,7 @@ class Overfall {
   }
 
   get state() {
-    return deepCopy(this._internalState);
+    return this._internalState;
   }
 
   set state(newState) {
@@ -119,13 +119,10 @@ class Overfall {
       });
     }
 
-    if (this._persistData) {
-      this.persistData();
-    }
+    if (this._persistData) this.persistState();
   }
 
   persistState() {
-    // persist some data
   }
 
   clearDataEvents(stateKeys) {
